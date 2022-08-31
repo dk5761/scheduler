@@ -11,7 +11,7 @@ _$_Schedule _$$_ScheduleFromJson(Map<String, dynamic> json) => _$_Schedule(
       time: DateTime.parse(json['time'] as String),
       title: json['title'] as String,
       mode: $enumDecode(_$RingerModeEnumMap, json['mode']),
-      active: json['active'] as bool,
+      active: json['active'] as int,
       volume: json['volume'] as int,
     );
 

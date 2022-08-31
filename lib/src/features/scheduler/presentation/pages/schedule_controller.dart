@@ -6,15 +6,15 @@ import '../../data/schedule_database.dart';
 import '../../data/schedule_local_repo.dart';
 import '../../domain/schedule_state/schedule_state.dart';
 
-final todoViewModelProvider = StateNotifierProvider(
-  (ref) => TodoViewModelProvider(
+final scheduleProvider = StateNotifierProvider<ScheduleController, dynamic>(
+  (ref) => ScheduleController(
     ref.read,
     ScheduleRepository(ScheduleDatabase()),
   ),
 );
 
-class TodoViewModelProvider extends StateNotifier<ScheduleState> {
-  TodoViewModelProvider(this._reader, this._scheduleRepository)
+class ScheduleController extends StateNotifier<ScheduleState> {
+  ScheduleController(this._reader, this._scheduleRepository)
       : super(const ScheduleState()) {
     getSchedules();
   }
@@ -27,7 +27,7 @@ class TodoViewModelProvider extends StateNotifier<ScheduleState> {
       DateTime time, int volume) async {
     final todo = await _scheduleRepository.addSchedule(Schedule(
       title: title,
-      active: active,
+      active: active ? 1 : 0,
       mode: mode,
       time: time,
       volume: volume,
@@ -48,7 +48,7 @@ class TodoViewModelProvider extends StateNotifier<ScheduleState> {
 
   Future<void> changeStatus(Schedule schedule, bool value) async {
     final newSchedule = schedule.copyWith(
-      active: value,
+      active: value ? 1 : 0,
     );
 
     await _scheduleRepository.updateSchedule(newSchedule);

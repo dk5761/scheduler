@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../common/ringermode.dart';
-import 'package:flutter/material.dart';
 part 'schedule.freezed.dart';
 part 'schedule.g.dart';
 
@@ -15,7 +14,7 @@ class Schedule with _$Schedule {
     required final DateTime time,
     required final String title,
     required final RingerMode mode,
-    required final bool active,
+    required final int active,
     required final int volume,
   }) = _Schedule;
 

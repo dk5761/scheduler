@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scheduler/src/features/scheduler/domain/schedule.dart';
+import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 
 // implement dismissible
 
 class CustomListTile extends ConsumerStatefulWidget {
-  const CustomListTile({Key? key}) : super(key: key);
+  const CustomListTile({Key? key, required this.data}) : super(key: key);
+
+  final Schedule data;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _CustomListTileState();
 }
 
 class _CustomListTileState extends ConsumerState<CustomListTile> {
-  bool isSwitched = false;
-
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final schedulesProvider = ref.watch(scheduleProvider.notifier);
+
     return Container(
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(6)),
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
-      width: double.infinity,
+      width: size.width,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -28,37 +33,40 @@ class _CustomListTileState extends ConsumerState<CustomListTile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //title
-              const Text(
-                "Title",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              Text(
+                widget.data.title,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(
                 height: 8,
               ),
-              Row(
-                children: const [
+              Wrap(
+                direction: Axis.vertical,
+                spacing: 5,
+                children: [
                   Text(
-                    "The mode will be set to RINGERMODE",
-                    style: TextStyle(fontSize: 12
-                        // fontWeight: FontWeight.bold,
-                        ),
+                    "The mode will be set to ${widget.data.mode} ",
+                    softWrap: true,
+                    style: const TextStyle(
+                        fontSize: 11,
+                        color: Color.fromARGB(255, 160, 159, 159)),
                   ),
                   Text(
-                    " at DateTime",
-                    style: TextStyle(fontSize: 12
-                        // fontWeight: FontWeight.bold,
-                        ),
+                    "at ${widget.data.time}",
+                    softWrap: true,
+                    style: const TextStyle(
+                        fontSize: 11,
+                        color: Color.fromARGB(255, 160, 159, 159)),
                   ),
                 ],
               )
             ],
           ),
           Switch.adaptive(
-            value: isSwitched,
+            value: widget.data.active > 0 ? true : false,
             onChanged: (value) {
-              setState(() {
-                isSwitched = value;
-              });
+              schedulesProvider.changeStatus(widget.data, value);
             },
             activeTrackColor: Colors.lightGreenAccent,
             activeColor: Colors.green,

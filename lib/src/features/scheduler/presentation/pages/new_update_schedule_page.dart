@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:scheduler/src/common/custom_button.dart';
+import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 
 import '../../../../common/ringermode.dart';
 
@@ -15,8 +19,11 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
   late final TextEditingController _textEditingController =
       TextEditingController();
   RingerMode _ringerMode = RingerMode.normal;
-  String title = "default";
+  String title = "";
   double _currentSliderValue = 0;
+  String? errorText;
+
+  //refs
 
   _selectTime(BuildContext context) async {
     final TimeOfDay? timeOfDay = await showTimePicker(
@@ -40,6 +47,13 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
   @override
   void initState() {
     super.initState();
+    _textEditingController.addListener(() {
+      if (errorText != null) {
+        setState(() {
+          errorText = null;
+        });
+      }
+    });
   }
 
   @override
@@ -50,10 +64,23 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
 
   @override
   Widget build(BuildContext context) {
+    final scheduleStateProvider = ref.watch(scheduleProvider.notifier);
+
     Future<void> saveToDb() async {
-      // provider.addSchedule(title, _convertToDateTime(), _ringerMode, true,
-      //     _currentSliderValue.toInt());
-      Navigator.pop(context);
+      log("title : $title");
+      log("convertToDateTime : ${_convertToDateTime()}");
+      log("ringerMode : $_ringerMode");
+      log("slidervalue : ${_currentSliderValue.toInt()}");
+      // Navigator.pop(context);
+
+      if (title.isNotEmpty) {
+        scheduleStateProvider.addSchedule(title, true, _ringerMode,
+            _convertToDateTime(), _currentSliderValue.toInt());
+      } else {
+        setState(() {
+          errorText = "Please enter a value";
+        });
+      }
     }
 
     return Scaffold(
@@ -61,6 +88,9 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black, //change your color here
+        ),
         title: const Text(
           "New Schedule",
           style: TextStyle(color: Colors.black),
@@ -102,7 +132,8 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
           ),
           TextField(
             controller: _textEditingController,
-            decoration: const InputDecoration(border: OutlineInputBorder()),
+            decoration: InputDecoration(
+                border: const OutlineInputBorder(), errorText: errorText),
             onChanged: (value) {
               title = value;
             },
@@ -126,6 +157,9 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
               onChanged: (RingerMode? value) {
                 setState(() {
                   _ringerMode = value!;
+                  if (value != RingerMode.normal) {
+                    _currentSliderValue = 0;
+                  }
                 });
               }),
           const SizedBox(
@@ -144,15 +178,10 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
                   },
                 )
               : const SizedBox(),
-          TextButton(
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(Colors.black54)),
-            onPressed: saveToDb,
-            child: const Text(
-              "Save",
-              style: TextStyle(color: Colors.white),
-            ),
+          CustomButton(
+            text: "Save",
+            textStyle: const TextStyle(color: Colors.white),
+            onTap: saveToDb,
           )
         ]),
       ),

@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:scheduler/src/features/scheduler/domain/schedule.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../../common/db/app_database.dart';
 
 class ScheduleDatabase extends AppDatabase {
-  final String _tableName = 'schedule1';
+  final String _tableName = 'schedule2';
 
   Future<List<Schedule>> getSchedule() async {
     final db = await database;
@@ -11,6 +13,8 @@ class ScheduleDatabase extends AppDatabase {
       _tableName,
       orderBy: 'id DESC',
     );
+
+    print(maps);
 
     if (maps.isEmpty) return [];
 

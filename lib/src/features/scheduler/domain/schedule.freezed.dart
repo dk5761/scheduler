@@ -24,7 +24,7 @@ mixin _$Schedule {
   DateTime get time => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   RingerMode get mode => throw _privateConstructorUsedError;
-  bool get active => throw _privateConstructorUsedError;
+  int get active => throw _privateConstructorUsedError;
   int get volume => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $ScheduleCopyWith<$Res> {
       DateTime time,
       String title,
       RingerMode mode,
-      bool active,
+      int active,
       int volume});
 }
 
@@ -83,7 +83,7 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
       active: active == freezed
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       volume: volume == freezed
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -103,7 +103,7 @@ abstract class _$$_ScheduleCopyWith<$Res> implements $ScheduleCopyWith<$Res> {
       DateTime time,
       String title,
       RingerMode mode,
-      bool active,
+      int active,
       int volume});
 }
 
@@ -146,7 +146,7 @@ class __$$_ScheduleCopyWithImpl<$Res> extends _$ScheduleCopyWithImpl<$Res>
       active: active == freezed
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as int,
       volume: volume == freezed
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -178,7 +178,7 @@ class _$_Schedule implements _Schedule {
   @override
   final RingerMode mode;
   @override
-  final bool active;
+  final int active;
   @override
   final int volume;
 
@@ -230,7 +230,7 @@ abstract class _Schedule implements Schedule {
       required final DateTime time,
       required final String title,
       required final RingerMode mode,
-      required final bool active,
+      required final int active,
       required final int volume}) = _$_Schedule;
 
   factory _Schedule.fromJson(Map<String, dynamic> json) = _$_Schedule.fromJson;
@@ -244,7 +244,7 @@ abstract class _Schedule implements Schedule {
   @override
   RingerMode get mode;
   @override
-  bool get active;
+  int get active;
   @override
   int get volume;
   @override

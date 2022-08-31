@@ -4,8 +4,8 @@ import 'package:sqflite/sqflite.dart';
 
 class AppDatabase {
   late Database _database;
-  static const tableName = 'schedule1';
-  static const tableName2 = '${tableName}_days';
+  static const tableName = 'schedule2';
+  // static const tableName2 = '${tableName}_days';
 
   Future<Database> get database async {
     _database = await _initDB();
@@ -13,7 +13,7 @@ class AppDatabase {
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'schedule.db');
+    String path = join(await getDatabasesPath(), 'schedule3.db');
 
     return await openDatabase(
       path,
@@ -24,12 +24,12 @@ class AppDatabase {
 
   Future<void> _createTable(Database db, int version) async {
     await db.execute('''CREATE TABLE IF NOT EXISTS $tableName (
-            id TEXT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT,
             time TEXT, 
             mode TEXT,
             active INT,
-            volume INT,
+            volume INT
             );
 ''');
   }
