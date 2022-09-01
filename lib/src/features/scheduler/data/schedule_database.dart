@@ -21,6 +21,14 @@ class ScheduleDatabase extends AppDatabase {
     return maps.map((map) => Schedule.fromJson(map)).toList();
   }
 
+  Future<Schedule> getOneSchedule(int id) async {
+    final db = await database;
+    final item = await db.query(_tableName, where: "id = $id");
+    final schedule = Schedule.fromJson(item[0]);
+
+    return schedule;
+  }
+
   Future<Schedule> insert(Schedule schedule) async {
     final db = await database;
 

@@ -18,7 +18,7 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
   TimeOfDay selectedTime = TimeOfDay.now();
   late final TextEditingController _textEditingController =
       TextEditingController();
-  RingerMode _ringerMode = RingerMode.normal;
+  RMode _ringerMode = RMode.normal;
   String title = "";
   double _currentSliderValue = 0;
   String? errorText;
@@ -148,16 +148,16 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
           const SizedBox(
             height: 10,
           ),
-          DropdownButton<RingerMode>(
+          DropdownButton<RMode>(
               value: _ringerMode,
-              items: RingerMode.values.map((RingerMode e) {
+              items: RMode.values.map((RMode e) {
                 return DropdownMenuItem(
                     value: e, child: Text(e.name.toString()));
               }).toList(),
-              onChanged: (RingerMode? value) {
+              onChanged: (RMode? value) {
                 setState(() {
                   _ringerMode = value!;
-                  if (value != RingerMode.normal) {
+                  if (value != RMode.normal) {
                     _currentSliderValue = 0;
                   }
                 });
@@ -165,7 +165,7 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
           const SizedBox(
             height: 10,
           ),
-          _ringerMode == RingerMode.normal
+          _ringerMode == RMode.normal
               ? Slider(
                   value: _currentSliderValue,
                   max: 100,

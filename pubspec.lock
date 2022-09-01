@@ -499,6 +499,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.1"
+  real_volume:
+    dependency: "direct main"
+    description:
+      name: real_volume
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.6"
   riverpod:
     dependency: transitive
     description:

@@ -1,4 +1,4 @@
-enum RingerMode {
+enum RMode {
   silent,
   normal,
   vibrate,

@@ -13,7 +13,7 @@ class Schedule with _$Schedule {
     final int? id,
     required final DateTime time,
     required final String title,
-    required final RingerMode mode,
+    required final RMode mode,
     required final int active,
     required final int volume,
   }) = _Schedule;

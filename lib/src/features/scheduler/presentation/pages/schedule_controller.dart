@@ -6,7 +6,8 @@ import '../../data/schedule_database.dart';
 import '../../data/schedule_local_repo.dart';
 import '../../domain/schedule_state/schedule_state.dart';
 
-final scheduleProvider = StateNotifierProvider<ScheduleController, dynamic>(
+final scheduleProvider =
+    StateNotifierProvider<ScheduleController, ScheduleState>(
   (ref) => ScheduleController(
     ref.read,
     ScheduleRepository(ScheduleDatabase()),
@@ -23,8 +24,8 @@ class ScheduleController extends StateNotifier<ScheduleState> {
   final Reader _reader;
   final ScheduleRepository _scheduleRepository;
 
-  Future<void> addSchedule(String title, bool active, RingerMode mode,
-      DateTime time, int volume) async {
+  Future<void> addSchedule(
+      String title, bool active, RMode mode, DateTime time, int volume) async {
     final todo = await _scheduleRepository.addSchedule(Schedule(
       title: title,
       active: active ? 1 : 0,

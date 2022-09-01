@@ -14,6 +14,10 @@ class ScheduleRepository {
     return _scheduleDatabase.getSchedule();
   }
 
+  Future<Schedule> getOneSchedule(int id) async {
+    return _scheduleDatabase.getOneSchedule(id);
+  }
+
   Future<Schedule> addSchedule(Schedule schedule) async {
     return _scheduleDatabase.insert(schedule);
   }

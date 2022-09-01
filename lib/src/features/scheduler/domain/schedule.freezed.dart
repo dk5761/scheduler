@@ -23,7 +23,7 @@ mixin _$Schedule {
   int? get id => throw _privateConstructorUsedError;
   DateTime get time => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  RingerMode get mode => throw _privateConstructorUsedError;
+  RMode get mode => throw _privateConstructorUsedError;
   int get active => throw _privateConstructorUsedError;
   int get volume => throw _privateConstructorUsedError;
 
@@ -41,7 +41,7 @@ abstract class $ScheduleCopyWith<$Res> {
       {int? id,
       DateTime time,
       String title,
-      RingerMode mode,
+      RMode mode,
       int active,
       int volume});
 }
@@ -79,7 +79,7 @@ class _$ScheduleCopyWithImpl<$Res> implements $ScheduleCopyWith<$Res> {
       mode: mode == freezed
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
-              as RingerMode,
+              as RMode,
       active: active == freezed
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -102,7 +102,7 @@ abstract class _$$_ScheduleCopyWith<$Res> implements $ScheduleCopyWith<$Res> {
       {int? id,
       DateTime time,
       String title,
-      RingerMode mode,
+      RMode mode,
       int active,
       int volume});
 }
@@ -142,7 +142,7 @@ class __$$_ScheduleCopyWithImpl<$Res> extends _$ScheduleCopyWithImpl<$Res>
       mode: mode == freezed
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
-              as RingerMode,
+              as RMode,
       active: active == freezed
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class _$_Schedule implements _Schedule {
   @override
   final String title;
   @override
-  final RingerMode mode;
+  final RMode mode;
   @override
   final int active;
   @override
@@ -229,7 +229,7 @@ abstract class _Schedule implements Schedule {
       {final int? id,
       required final DateTime time,
       required final String title,
-      required final RingerMode mode,
+      required final RMode mode,
       required final int active,
       required final int volume}) = _$_Schedule;
 
@@ -242,7 +242,7 @@ abstract class _Schedule implements Schedule {
   @override
   String get title;
   @override
-  RingerMode get mode;
+  RMode get mode;
   @override
   int get active;
   @override

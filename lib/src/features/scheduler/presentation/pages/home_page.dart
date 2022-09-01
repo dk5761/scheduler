@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 import 'package:scheduler/src/features/scheduler/presentation/widgets/list_tile.dart';
 import 'package:scheduler/src/routing/routing.gr.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:scheduler/src/utils/alarm_scheduler.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -24,10 +26,18 @@ class HomePage extends ConsumerWidget {
       ),
       body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: scheduleList != null
+          child: scheduleList.schedules.isNotEmpty
               ? ListView.builder(
                   itemCount: scheduleList.schedules.length,
                   itemBuilder: (context, index) {
+                    if (scheduleList.schedules[index].active > 0) {
+                      AlarmScheduler(scheduleList.schedules[index]);
+                    } else {
+                      print(scheduleList.schedules);
+                      final id = scheduleList.schedules[index].id!;
+                      CancelAlarm(id);
+                    }
+
                     return CustomListTile(
                       data: scheduleList.schedules[index],
                     );

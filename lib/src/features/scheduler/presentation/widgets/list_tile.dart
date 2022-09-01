@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scheduler/src/features/scheduler/domain/schedule.dart';
 import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 
+import '../../../../utils/alarm_scheduler.dart';
+
 // implement dismissible
 
 class CustomListTile extends ConsumerStatefulWidget {
