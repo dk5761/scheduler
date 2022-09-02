@@ -47,6 +47,27 @@ class ScheduleController extends StateNotifier<ScheduleState> {
     );
   }
 
+  Future<void> updateSchedule(int id, String title, bool active, RMode mode,
+      DateTime time, int volume) async {
+    final todo = await _scheduleRepository.updateSchedule(Schedule(
+      id: id,
+      title: title,
+      active: active ? 1 : 0,
+      mode: mode,
+      time: time,
+      volume: volume,
+    ));
+
+    // make the state modified
+    List schedules = state.schedules.toList();
+    //remove the element from the state
+    schedules.removeWhere((element) => element.id == id);
+
+    state = state.copyWith(
+      schedules: [todo, ...schedules],
+    );
+  }
+
   Future<void> changeStatus(Schedule schedule, bool value) async {
     final newSchedule = schedule.copyWith(
       active: value ? 1 : 0,

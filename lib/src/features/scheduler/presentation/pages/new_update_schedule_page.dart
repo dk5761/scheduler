@@ -1,14 +1,21 @@
 import 'dart:developer';
 
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scheduler/src/common/custom_button.dart';
 import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 
 import '../../../../common/ringermode.dart';
+import '../../domain/schedule.dart';
 
 class NewSchedule extends ConsumerStatefulWidget {
-  const NewSchedule({Key? key}) : super(key: key);
+  const NewSchedule({Key? key, this.isUpdate = false, this.schedule})
+      : super(key: key);
+
+  final bool isUpdate;
+  final Schedule? schedule;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _NewScheduleState();
@@ -16,8 +23,8 @@ class NewSchedule extends ConsumerStatefulWidget {
 
 class _NewScheduleState extends ConsumerState<NewSchedule> {
   TimeOfDay selectedTime = TimeOfDay.now();
-  late final TextEditingController _textEditingController =
-      TextEditingController();
+  late final TextEditingController _textEditingController;
+
   RMode _ringerMode = RMode.normal;
   String title = "";
   double _currentSliderValue = 0;
@@ -47,6 +54,16 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
   @override
   void initState() {
     super.initState();
+
+    _textEditingController = TextEditingController(
+        text: widget.isUpdate ? widget.schedule!.title : "");
+
+    if (widget.isUpdate) {
+      selectedTime = TimeOfDay.fromDateTime(widget.schedule!.time);
+      _ringerMode = widget.schedule!.mode;
+      _currentSliderValue = widget.schedule!.volume + 0.0;
+    }
+
     _textEditingController.addListener(() {
       if (errorText != null) {
         setState(() {
@@ -73,14 +90,26 @@ class _NewScheduleState extends ConsumerState<NewSchedule> {
       log("slidervalue : ${_currentSliderValue.toInt()}");
       // Navigator.pop(context);
 
-      if (title.isNotEmpty) {
-        scheduleStateProvider.addSchedule(title, true, _ringerMode,
-            _convertToDateTime(), _currentSliderValue.toInt());
+      if (widget.isUpdate) {
+        scheduleStateProvider.updateSchedule(
+            widget.schedule!.id as int,
+            title,
+            widget.schedule!.active > 0 ? true : false,
+            _ringerMode,
+            _convertToDateTime(),
+            _currentSliderValue.toInt());
       } else {
-        setState(() {
-          errorText = "Please enter a value";
-        });
+        if (title.isNotEmpty) {
+          scheduleStateProvider.addSchedule(title, true, _ringerMode,
+              _convertToDateTime(), _currentSliderValue.toInt());
+        } else {
+          setState(() {
+            errorText = "Please enter a value";
+          });
+        }
       }
+      //Navigate to home
+      AutoRouter.of(context).pop();
     }
 
     return Scaffold(

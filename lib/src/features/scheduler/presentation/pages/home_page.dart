@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:scheduler/src/features/scheduler/presentation/pages/schedule_controller.dart';
 import 'package:scheduler/src/features/scheduler/presentation/widgets/list_tile.dart';
 import 'package:scheduler/src/routing/routing.gr.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:scheduler/src/utils/alarm_scheduler.dart';
 
 class HomePage extends ConsumerWidget {
@@ -33,13 +32,18 @@ class HomePage extends ConsumerWidget {
                     if (scheduleList.schedules[index].active > 0) {
                       AlarmScheduler(scheduleList.schedules[index]);
                     } else {
-                      print(scheduleList.schedules);
                       final id = scheduleList.schedules[index].id!;
                       CancelAlarm(id);
                     }
 
                     return CustomListTile(
+                      isFirst: index == 0 ? true : false,
                       data: scheduleList.schedules[index],
+                      onTap: () => AutoRouter.of(context).push(
+                        NewSchedule(
+                            isUpdate: true,
+                            schedule: scheduleList.schedules[index]),
+                      ),
                     );
                   },
                 )
@@ -47,7 +51,7 @@ class HomePage extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         elevation: 0,
         backgroundColor: Colors.grey,
-        onPressed: (() => AutoRouter.of(context).push(const NewSchedule())),
+        onPressed: (() => AutoRouter.of(context).push(NewSchedule())),
         child: const Icon(
           Icons.add,
           color: Colors.white,

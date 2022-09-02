@@ -43,15 +43,21 @@ class ScheduleDatabase extends AppDatabase {
     );
   }
 
-  Future update(Schedule schedule) async {
+  Future<Schedule> update(Schedule schedule) async {
     final db = await database;
 
-    return await db.update(
+    print(schedule);
+
+    final id = await db.update(
       _tableName,
       schedule.toJson(),
       where: 'id = ?',
       whereArgs: [schedule.id],
       conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+
+    return schedule.copyWith(
+      id: id,
     );
   }
 

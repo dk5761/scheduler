@@ -22,7 +22,7 @@ class ScheduleRepository {
     return _scheduleDatabase.insert(schedule);
   }
 
-  Future<void> updateSchedule(Schedule schedule) async {
+  Future<Schedule> updateSchedule(Schedule schedule) async {
     return _scheduleDatabase.update(schedule);
   }
 

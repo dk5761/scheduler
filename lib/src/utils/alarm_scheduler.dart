@@ -11,12 +11,12 @@ import 'package:scheduler/src/utils/ringerMode.dart';
 void AlarmScheduler(Schedule schedule) async {
   await AndroidAlarmManager.periodic(
       const Duration(minutes: 2), schedule.id!, scheduleAlarm,
-      startAt: DateTime.now(), wakeup: true, allowWhileIdle: true, exact: true);
+      startAt: schedule.time, wakeup: true, allowWhileIdle: true, exact: true);
 }
 
 void scheduleAlarm(int id) {
   final DateTime now = DateTime.now();
-  print(id);
+  print("$now for $id");
   setSoundMode(id);
 }
 
